@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Algorithms;
+using System.Collections;
 using System.Numerics;
 using System.Text;
 using System.Threading.Channels;
@@ -9,15 +10,48 @@ namespace List
     {
         public static void Main(string[] args)
         {
-            HashListExample();
 
-            SortedListExample();
+            // SortedSet Example
 
-            StackExample();
+            //* System.Collections.Generic sınıfı altında yer alır
+            //* generic yapıdadır 
+            //* elemanlar benzersizdi.
+            //* Sıralama ekleme sırasında yapılır.
+            //* Add işlemi boolean değer döndürür.
+            //* Remove silme
+            //* Remove Where (Predicate) => koşul ifadesi ile çalışır ve lambda şeklinde yazılır.
+            //* Dinamik ve kesişim, birleşim, ayrım, altküme işlemlerini içerir.
 
-            QueueExample();
+            var list = new SortedSet<string>();
+            if(list.Add("Ömer"))
+            {
+                Console.WriteLine("Ömer eklendi");
+            }
 
-            LinkedList();
+            Console.WriteLine("{0}", list.Add("Öztürk") == true ? "Öztürk eklendi" : "Ekleme başarısız.");
+
+
+
+
+
+            /*
+                        HashListExample();
+
+                        SortedListExample();
+
+                        StackExample();
+
+                        QueueExample();
+
+                        LinkedList();
+
+                        DictionaryExam();
+
+                        DictionaryExample();
+
+                        SortedDictionaryExample();
+            */
+
 
             static void HashListExample()
             {
@@ -48,6 +82,121 @@ namespace List
                 Console.ReadKey();
 
             }
+        }
+
+        private static void SortedDictionaryExample()
+        {
+
+            // Sorted Dictionary
+            //* system.collection.generic sınıfı altında 
+            //* Dictionary sınıfı altındaki tüm metotlar geçerlidir.
+            //* Veri ekleme adımında sıralama işlemi yaptığı için bir miktar veri kaybı yaşanmaktadır.
+            //* Sıralama işlemi TKey ifadesine göre yapılır.
+
+            var kitap = new SortedDictionary<string, List<int>>()
+            {
+                {"HTML",new List<int>{23,57,89} },
+                {"CSS",new List<int>{32,44,73} },
+                {"Bootstrap",new List<int>{51,66,90} }
+
+            };
+            kitap.Add("FTP", new List<int> { 4, 6, 9 });
+            kitap.Add("ASP .NET Core", new List<int> { 15, 26, 35 });
+            kitap.Add("Identity Framework", new List<int> { 50, 63, 87 });
+            kitap.Add("ASP .NET MVC", new List<int> { 96, 123, 143 });
+
+
+            foreach (var konu in kitap)
+            {
+                Console.WriteLine($"{konu.Key,-5} Subject: ");
+                konu.Value.ForEach(x => Console.WriteLine(x));
+            }
+        }
+
+        private static void DictionaryExample()
+        {
+            var personelListesi = new Dictionary<int, Personel>();
+            personelListesi.Add(1, new Personel(123, "Ömer", "Öztürk", 40000));
+            personelListesi.Add(2, new Personel(124, "Buse", "Öztürk", 70000));
+            personelListesi.Add(3, new Personel(125, "Nur", "Öztürk", 40000));
+
+            foreach (var item in personelListesi)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        private static void DictionaryExam()
+        {
+            var telefonKodlari = new Dictionary<int, string>()
+            {
+                {424,"Elazığ" },
+                { 332,"Konya"},
+                {123,"Art" }
+            };
+
+            // sözlük yapısında key bulunduğu için ve aynı değer alamayacağı
+            // için derleme zamanında hata vermezken çalışma zamanında hata verir.
+            // Aynı zamanda farklı key ile aynı değer kayıdı yapılabilir.
+
+            // Ekleme
+
+            telefonKodlari.Add(322, "Adana");
+            //telefonKodlari.Add(322, "İstanbul");
+            telefonKodlari.Add(212, "İstanbul");
+            telefonKodlari.Add(216, "İstanbul");
+
+            // Dolaşma
+
+            foreach (var item in telefonKodlari)
+            {
+                Console.WriteLine(item);
+            }
+
+            // Erişme
+            telefonKodlari[123] = "Denizli";
+
+            // ContainsKey
+            Console.WriteLine("Key ile ulaşma");
+            telefonKodlari.ContainsKey(332);
+
+            // ContainsValue
+            Console.WriteLine("Value ile ulaşma");
+            if (!telefonKodlari.ContainsValue("Malatya"))
+            {
+                Console.WriteLine("Malatya'nın kod bilgisi tanımlı değil");
+                telefonKodlari.Add(312, "Malatya");
+                Console.WriteLine("Malatya kod bilgisi eklendi.");
+                Console.WriteLine(telefonKodlari[312]);
+
+            }
+
+            // Tüm elemanları dolaşma
+
+            foreach (var item in telefonKodlari)
+            {
+                Console.WriteLine(item);
+            }
+
+            // Eleman silme
+
+            telefonKodlari.Remove(123);
+            foreach (var item in telefonKodlari)
+            {
+                Console.WriteLine(item);
+            }
+
+            // Sözlük yapısını temizlme:
+
+            telefonKodlari.Clear();
+            Console.WriteLine("Dictionary cleared.");
+
+            foreach (var item in telefonKodlari)
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.ReadKey();
         }
 
         private static void SortedListExample()
