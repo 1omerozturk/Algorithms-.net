@@ -11,31 +11,29 @@ namespace List
         public static void Main(string[] args)
         {
 
-            // SortedSet Example
-
-            //* System.Collections.Generic sınıfı altında yer alır
-            //* generic yapıdadır 
-            //* elemanlar benzersizdi.
-            //* Sıralama ekleme sırasında yapılır.
-            //* Add işlemi boolean değer döndürür.
-            //* Remove silme
-            //* Remove Where (Predicate) => koşul ifadesi ile çalışır ve lambda şeklinde yazılır.
-            //* Dinamik ve kesişim, birleşim, ayrım, altküme işlemlerini içerir.
-
-            var list = new SortedSet<string>();
-            if(list.Add("Ömer"))
-            {
-                Console.WriteLine("Ömer eklendi");
-            }
-
-            Console.WriteLine("{0}", list.Add("Öztürk") == true ? "Öztürk eklendi" : "Ekleme başarısız.");
 
 
 
+            // SortedSet Küme işlemleri
+
+            //SortedSet<int> A, B;
+
+            //Yazdirma(out A, out B);
+
+            //Birlesim(A, B);
+
+            //Kesisim(A, B);
+
+            //Cıkarma(A, B);
+
+            //KesisimDışı(A, B);
+
+            //SubSetAltKume(A, B);
 
 
             /*
                         HashListExample();
+                        
 
                         SortedListExample();
 
@@ -50,7 +48,12 @@ namespace List
                         DictionaryExample();
 
                         SortedDictionaryExample();
-            */
+                        
+                        SortedSetExample();
+            
+                        HashSetExm();
+             */
+
 
 
             static void HashListExample()
@@ -82,6 +85,215 @@ namespace List
                 Console.ReadKey();
 
             }
+        }
+
+        private static void HashSetExm()
+        {
+
+            // HashSet <T>
+
+            //* System.Collections.Generic sınıfı altında bulunur
+            //* Type safe'dir
+            //* eleman benzersizdir.
+            //* sıralama yok.
+            //* küme işlemlerine izin verir.
+
+            var sesliHarf = new HashSet<char>()
+            {
+                'e',
+                'ı',
+                'i',
+                'u',
+                'ü',
+                'o',
+                'ö'
+            };
+
+            // Yazdırma: 
+            KoleksiyonYazdir(sesliHarf);
+
+            // Ekleme - Add
+            sesliHarf.Add('a');
+            KoleksiyonYazdir(sesliHarf);
+
+            // listeden çıkarma
+            sesliHarf.Remove('e');
+            KoleksiyonYazdir(sesliHarf);
+
+
+            var alfabe = new List<char>();
+            for (int i = 97; i < 123; i++)
+            {
+                alfabe.Add((char)i);
+            }
+            KoleksiyonYazdir(alfabe);
+
+            // Türkçe'de kullanılan sesli harfler
+            //sesliHarf.ExceptWith(alfabe);
+            //sesliHarf.UnionWith(alfabe);
+            //sesliHarf.IntersectWith(alfabe);
+            sesliHarf.SymmetricExceptWith(alfabe);
+
+            KoleksiyonYazdir(sesliHarf);
+
+
+
+
+            Console.ReadKey();
+
+            static void KoleksiyonYazdir(IEnumerable koleksiyon)
+            {
+                Console.WriteLine();
+                int t = 0;
+                Console.WriteLine("\nSesli harfler:");
+                foreach (char i in koleksiyon)
+                {
+                    Console.Write($"{i,3}");
+                    t++;
+                }
+                Console.WriteLine("\nEleman sayisi: {0}", t);
+            }
+        }
+
+        private static void SubSetAltKume(SortedSet<int> A, SortedSet<int> B)
+        {
+
+            // Alt küme - Subset
+            Console.WriteLine(B.IsSubsetOf(A));
+        }
+
+        private static void KesisimDışı(SortedSet<int> A, SortedSet<int> B)
+        {
+
+            //Kesişim dışındaki elemanlar - Symetric Exception
+
+            #region kesişim dışındaki elemanlar
+            A.SymmetricExceptWith(B);
+            Console.WriteLine();
+            Console.WriteLine("\n\n Kesişim dışındaki elemanlar: ");
+            foreach (var s in A)
+            {
+                Console.WriteLine(s);
+            }
+
+            #endregion
+        }
+
+        private static void Cıkarma(SortedSet<int> A, SortedSet<int> B)
+        {
+            // Cıkarma - Exception
+            #region Çıkarma
+            A.ExceptWith(B);
+            Console.WriteLine();
+            Console.WriteLine("\n\n Sadece A");
+            foreach (var s in A)
+            {
+                Console.WriteLine(s);
+            }
+
+            #endregion
+        }
+
+        private static void Kesisim(SortedSet<int> A, SortedSet<int> B)
+        {
+            #region Kesisim
+
+            // Kesişim - IntersectWith
+            Console.WriteLine("İki kümenin kesişimi: ");
+            A.IntersectWith(B);
+            foreach (var i in A)
+            {
+                Console.WriteLine($"{i,5}");
+            }
+
+            #endregion
+        }
+
+        private static void Birlesim(SortedSet<int> A, SortedSet<int> B)
+        {
+            #region Birlesim
+
+            // Birleşim - Union
+            A.UnionWith(B);
+            Console.WriteLine("Birleşim kümesi: ");
+            foreach (var x in A) Console.WriteLine(x);
+
+            #endregion
+        }
+
+        private static void Yazdirma(out SortedSet<int> A, out SortedSet<int> B)
+        {
+            #region yazdirma
+
+            //var A = new SortedSet<int>() { 1, 2, 3, 4, 5 };
+            A = new SortedSet<int>(RastgeleSayiUret(8));
+            B = new SortedSet<int>(RastgeleSayiUret(3));
+
+            static List<int> RastgeleSayiUret(int n)
+            {
+                var list = new List<int>();
+                var r = new Random();
+                for (int i = 0; i < n; i++)
+                {
+                    list.Add(r.Next(0, 10));
+
+                }
+                return list;
+            }
+
+            Console.WriteLine("A kümesi: \n");
+            foreach (var x in A) Console.WriteLine(x);
+            Console.WriteLine("B kümesi: \n");
+            foreach (var x in B) Console.WriteLine(x);
+
+            #endregion
+        }
+
+        private static void SortedSetExample()
+        {
+
+            // SortedSet Example
+
+            //* System.Collections.Generic sınıfı altında yer alır
+            //* generic yapıdadır 
+            //* elemanlar benzersizdi.
+            //* Sıralama ekleme sırasında yapılır.
+            //* Add işlemi boolean değer döndürür.
+            //* Remove silme
+            //* Remove Where (Predicate) => koşul ifadesi ile çalışır ve lambda şeklinde yazılır.
+            //* Dinamik ve kesişim, birleşim, ayrım, altküme işlemlerini içerir.
+
+            var list = new SortedSet<string>();
+            if (list.Add("Ömer"))
+            {
+                Console.WriteLine("Ömer eklendi");
+            }
+
+            Console.WriteLine("{0}", list.Add("Öztürk") == true ? "Öztürk eklendi" : "Ekleme başarısız.");
+
+            // SortedSet Example 2
+            var r = new Random();
+            var sayilar = new List<int>();
+            Console.WriteLine();
+
+            for (int i = 0; i < 100; i++)
+            {
+                sayilar.Add(r.Next(100));
+                Console.WriteLine($"{sayilar[i],-3}");
+            }
+            Console.WriteLine();
+
+            // listedeki benzersiz elemanları seçmek
+
+            var benzersizSayilar = new SortedSet<int>(sayilar);
+
+            Console.WriteLine("\nBenzersiz sayilar listesi:\n");
+            foreach (var item in benzersizSayilar)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine($"Benzersiz {benzersizSayilar.Count} sayi var");
+            Console.ReadKey();
         }
 
         private static void SortedDictionaryExample()
